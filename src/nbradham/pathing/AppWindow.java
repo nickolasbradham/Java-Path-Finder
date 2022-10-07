@@ -4,11 +4,15 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
+
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Handles GUI elements.
@@ -22,7 +26,7 @@ final class AppWindow extends JFrame implements ActionListener {
 	private static final String ACT_OPEN = "open", ACT_RUN = "run", ACT_PAUSE = "pause", ACT_STEP = "step",
 			ACT_RESET = "reset";
 
-	private final Simulation pane = new Simulation();
+	private final Simulation sim = new Simulation();
 	private final JMenuItem runItem = createJMenuItem("Run", ACT_RUN, KeyEvent.VK_R),
 			pauseItem = createJMenuItem("Pause", ACT_PAUSE, KeyEvent.VK_P),
 			stepItem = createJMenuItem("Step", ACT_STEP, KeyEvent.VK_S),
@@ -45,8 +49,8 @@ final class AppWindow extends JFrame implements ActionListener {
 		bar.add(resetItem);
 		setJMenuBar(bar);
 
-		pane.setPreferredSize(new Dimension(1300, 700));
-		setContentPane(pane);
+		sim.setPreferredSize(new Dimension(1300, 700));
+		setContentPane(sim);
 		pack();
 	}
 
@@ -71,30 +75,39 @@ final class AppWindow extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case ACT_OPEN:
-			// TODO: Finish implementation.
-			runItem.setEnabled(true);
-			stepItem.setEnabled(true);
+			JFileChooser jfc = new JFileChooser();
+			jfc.setDialogTitle("Open Sim File");
+			jfc.setFileFilter(new FileNameExtensionFilter("Simulation Data File", "sim"));
+			if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+				try {
+					sim.load(jfc.getSelectedFile());
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+				runItem.setEnabled(true);
+				stepItem.setEnabled(true);
+			}
 			break;
 		case ACT_RUN:
 			runItem.setEnabled(false);
 			pauseItem.setEnabled(true);
 			stepItem.setEnabled(false);
 			resetItem.setEnabled(false);
-			pane.run();
+			sim.run();
 			break;
 		case ACT_PAUSE:
-			pane.pause();
+			sim.pause();
 			pauseItem.setEnabled(false);
 			runItem.setEnabled(true);
 			stepItem.setEnabled(true);
 			resetItem.setEnabled(true);
 			break;
 		case ACT_STEP:
-			pane.step();
+			sim.step();
 			break;
 		case ACT_RESET:
-			pane.reset();
-			pane.repaint();
+			sim.reset();
+			sim.repaint();
 		}
 	}
 

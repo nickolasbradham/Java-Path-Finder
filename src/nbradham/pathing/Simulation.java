@@ -1,7 +1,11 @@
 package nbradham.pathing;
 
 import java.awt.Graphics;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.Thread.State;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -16,7 +20,15 @@ final class Simulation extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private final SimThread thread = new SimThread();
-	private byte size = 0;
+
+	private final ArrayList<Human> humans = new ArrayList<>();
+	private final Bot bot = new Bot();
+
+	final void load(File file) throws FileNotFoundException {
+		Scanner scan = new Scanner(file);
+		bot.setStart(scan.nextShort(), scan.nextShort());
+		bot.setTarget(scan.nextShort(), scan.nextShort());
+	}
 
 	/**
 	 * Starts (or resumes) simulation thread.
@@ -39,7 +51,6 @@ final class Simulation extends JPanel {
 	 * Continues the simulation by one step.
 	 */
 	final void step() {
-		size++;
 		SwingUtilities.invokeLater(() -> repaint());
 	}
 
@@ -47,13 +58,16 @@ final class Simulation extends JPanel {
 	 * Resets the simulation to the initial state.
 	 */
 	final void reset() {
-		size = 0;
+		// TODO: Add function.
 	}
 
 	@Override
 	public final void paint(Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
-		g.fillRect(0, 0, size * 10, size * 10);
+		for (short x = 0; x < getWidth(); x += 50)
+			g.drawLine(x, 0, x, getHeight());
+		for (short y = 0; y < getHeight(); y += 50)
+			g.drawLine(0, y, getWidth(), y);
 	}
 
 	/**
