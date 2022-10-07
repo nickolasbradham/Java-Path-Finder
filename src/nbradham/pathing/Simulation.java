@@ -28,6 +28,15 @@ final class Simulation extends JPanel {
 		Scanner scan = new Scanner(file);
 		bot.setStart(scan.nextShort(), scan.nextShort());
 		bot.setTarget(scan.nextShort(), scan.nextShort());
+		scan.nextLine();
+		while (scan.hasNextLine()) {
+			String[] split = scan.nextLine().split(" ");
+			Human th = new Human();
+			byte i = 0;
+			while (i < split.length)
+				th.addKeyPos(Short.parseShort(split[i++]), Short.parseShort(split[i++]), Short.parseShort(split[i++]));
+		}
+		scan.close();
 	}
 
 	/**
