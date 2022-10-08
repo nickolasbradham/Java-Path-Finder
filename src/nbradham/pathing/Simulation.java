@@ -25,7 +25,7 @@ import nbradham.pathing.algorithms.DijkstraPather;
 final class Simulation extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	static final byte CELL_S = 50, CELL_S_METERS = 1;
+	static final byte CELL_S = 50;
 
 	private final SimThread thread = new SimThread();
 	private final JLabel stepLabel = new JLabel("Waiting...");
