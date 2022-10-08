@@ -62,17 +62,17 @@ class KeyframedObject {
 	 * @param g The graphics to paint to.
 	 */
 	public void paint(Graphics2D g) {
-		g.setColor(new Color(0, 0, 0, 32));
-		g.fillOval(loc.x - PERSONAL_RADIUS, loc.y - PERSONAL_RADIUS, PERSONAL_DIAMETER, PERSONAL_DIAMETER);
-
-		g.setColor(Color.BLACK);
-		g.fillOval(loc.x - HITBOX_RADIUS, loc.y - HITBOX_RADIUS, HITBOX_DIAMETER, HITBOX_DIAMETER);
-
 		g.setColor(Color.GREEN);
 		g.setStroke(new BasicStroke(4));
 		for (byte i = 1; i < keyPoss.length; i++) {
 			int last = i - 1;
 			g.drawLine(keyPoss[last][1], keyPoss[last][2], keyPoss[i][1], keyPoss[i][2]);
 		}
+
+		g.setColor(new Color(0, 0, 0, 32));
+		g.fillOval(loc.x - PERSONAL_RADIUS, loc.y - PERSONAL_RADIUS, PERSONAL_DIAMETER, PERSONAL_DIAMETER);
+
+		g.setColor(Color.BLACK);
+		g.fillOval(loc.x - HITBOX_RADIUS, loc.y - HITBOX_RADIUS, HITBOX_DIAMETER, HITBOX_DIAMETER);
 	}
 }
