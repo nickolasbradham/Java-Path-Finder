@@ -32,6 +32,7 @@ final class Simulation extends JPanel {
 
 	private KeyframedObject[] humans = new KeyframedObject[0];
 	private Bot bot = new Bot(-1, -1, -1, -1);
+	private String labelText = "";
 	private short step = 0;
 	private boolean usingAStar = false;
 
@@ -100,14 +101,22 @@ final class Simulation extends JPanel {
 	 * Continues the simulation by one step.
 	 */
 	final void step() {
-		if (bot.hasPath()) {
+		switch (bot.getState()) {
+		case READY:
 			step++;
+			labelText = "Step: " + step;
 			for (KeyframedObject h : humans)
 				h.step(step);
 			bot.step(step);
-		} else
+			break;
+		case PATHING:
+			labelText = "Pathing...";
 			bot.stepPathing();
-		// TODO: Finish step code.
+			break;
+		case NO_PATH:
+			labelText = "No path.";
+			pause();
+		}
 		SwingUtilities.invokeLater(() -> repaint());
 	}
 
@@ -142,7 +151,7 @@ final class Simulation extends JPanel {
 
 	@Override
 	public final void paint(Graphics g) {
-		stepLabel.setText("Step: " + step);
+		stepLabel.setText(labelText);
 
 		g.clearRect(0, 0, getWidth(), getHeight());
 		for (short x = 0; x < getWidth(); x += CELL_S)

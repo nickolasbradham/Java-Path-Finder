@@ -14,12 +14,16 @@ import nbradham.pathing.algorithms.PathingAlgorithm;
  */
 final class Bot extends KeyframedObject {
 
+	static enum BotState {
+		PATHING, NO_PATH, READY
+	};
+
 	private static final short HITBOX_RADIUS = 25;
 	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2;
 
 	private final Point start, end;
 	private PathingAlgorithm alg;
-	private Point loc;
+	private BotState state = BotState.PATHING;
 
 	/**
 	 * Constructs a new Bot.
@@ -32,7 +36,6 @@ final class Bot extends KeyframedObject {
 	Bot(int startX, int startY, int endX, int endY) {
 		super(new int[][] { { 0, startX, startY } });
 		start = new Point(startX, startY);
-		loc = new Point(start);
 		end = new Point(endX, endY);
 	}
 
@@ -50,23 +53,30 @@ final class Bot extends KeyframedObject {
 	 * 
 	 * @return True if the bot has found a path.
 	 */
-	boolean hasPath() {
-		// TODO: Figure this out.
-		return true;
+	BotState getState() {
+		return state;
 	}
 
 	/**
-	 * Steps the pathing algorithm.
+	 * Steps the path finding algorithm.
 	 */
 	void stepPathing() {
-		// TODO Figure this out.
+		if (alg.isFinished())
+			if (alg.hasPath()) {
+				keyPoss = alg.generateKeyframes();
+				state = BotState.READY;
+			} else
+				state = BotState.NO_PATH;
+		else
+			alg.step();
 	}
 
 	/**
 	 * Resets the bot to the initial position and configuration.
 	 */
 	void reset() {
-		loc.setLocation(start);
+		keyPoss = new int[][] { { 0, start.x, start.y } };
+		state = BotState.PATHING;
 	}
 
 	/**

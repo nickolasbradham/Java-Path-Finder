@@ -17,8 +17,8 @@ class KeyframedObject {
 	private static final short HITBOX_RADIUS = 25, PERSONAL_RADIUS = 75;
 	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2, PERSONAL_DIAMETER = PERSONAL_RADIUS * 2;
 
-	private final int[][] keyPoss;
-	private Point loc;
+	protected int[][] keyPoss;
+	protected Point loc;
 
 	/**
 	 * Constructs a new KeyframedObject and sets the frames.
