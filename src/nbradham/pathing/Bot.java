@@ -12,9 +12,9 @@ import nbradham.pathing.algorithms.PathingAlgorithm;
  * @author Nickolas Bradham
  *
  */
-final class Bot {
+final class Bot extends KeyframedObject {
 
-	private static final short HITBOX_RADIUS = Simulation.toPixels(.5);
+	private static final short HITBOX_RADIUS = 25;
 	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2;
 
 	private final Point start, end;
@@ -22,6 +22,7 @@ final class Bot {
 	private Point loc;
 
 	Bot(int startX, int startY, int endX, int endY) {
+		super(new int[][] { { 0, startX, startY } });
 		start = new Point(startX, startY);
 		loc = new Point(start);
 		end = new Point(endX, endY);
@@ -38,7 +39,7 @@ final class Bot {
 
 	boolean hasPath() {
 		// TODO: Figure this out.
-		return false;
+		return true;
 	}
 
 	void step() {
@@ -49,8 +50,15 @@ final class Bot {
 		// TODO Figure this out.
 	}
 
+	void reset() {
+		loc.setLocation(start);
+	}
+
 	void paint(Graphics g) {
 		g.setColor(Color.GRAY);
 		g.fillOval(loc.x - HITBOX_RADIUS, loc.y - HITBOX_RADIUS, HITBOX_DIAMETER, HITBOX_DIAMETER);
+
+		g.setColor(Color.MAGENTA);
+		g.fillRect(end.x - 10, end.y - 10, 20, 20);
 	}
 }

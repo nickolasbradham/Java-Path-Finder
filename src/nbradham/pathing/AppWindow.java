@@ -36,7 +36,7 @@ final class AppWindow extends JFrame implements ActionListener {
 			resetItem = createJButton("Reset", ACT_RESET, KeyEvent.VK_E);
 	private final JComboBox<String> algorithmBox = new JComboBox<>(
 			new String[] { ALGORITHM_A_STAR, ALGORITHM_DIJKSTRAS }),
-			waitBox = new JComboBox<>(new String[] { "1000", "500", "250", "100", "50", "17" });
+			waitBox = new JComboBox<>(new String[] { "500", "250", "100", "50", "17" });
 
 	/**
 	 * Constructs a new AppWindow instance.
@@ -67,6 +67,8 @@ final class AppWindow extends JFrame implements ActionListener {
 		waitBox.setEditable(true);
 		updateWait();
 		controls.add(waitBox);
+		
+		controls.add(sim.getStepLabel());
 
 		add(controls, BorderLayout.NORTH);
 
@@ -145,6 +147,7 @@ final class AppWindow extends JFrame implements ActionListener {
 			resetItem.setEnabled(true);
 			break;
 		case ACT_STEP:
+			resetItem.setEnabled(true);
 			sim.step();
 			break;
 		case ACT_RESET:

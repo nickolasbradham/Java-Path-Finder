@@ -2,9 +2,9 @@ package nbradham.pathing;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.Arrays;
 
 /**
  * Represents a human obstacle.
@@ -12,21 +12,35 @@ import java.awt.Point;
  * @author Nickolas Bradham
  *
  */
-final class Human {
+class KeyframedObject {
 
-	private static final short HITBOX_RADIUS = Simulation.toPixels(.5), PERSONAL_RADIUS = Simulation.toPixels(1.5);
+	private static final short HITBOX_RADIUS = 25, PERSONAL_RADIUS = 75;
 	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2, PERSONAL_DIAMETER = PERSONAL_RADIUS * 2;
 
-	private final short[][] keyPoss;
+	private final int[][] keyPoss;
 	private Point loc;
 
-	public Human(short[][] setKeyPoss) {
+	public KeyframedObject(int[][] setKeyPoss) {
 		keyPoss = setKeyPoss;
 		loc = new Point(keyPoss[0][1], keyPoss[0][2]);
 	}
 
-	void step() {
-		// TODO Figure this out.
+	void step(short n) {
+		int ind = Arrays.binarySearch(keyPoss, new int[] { n }, (int[] a, int[] b) -> {
+			return a[0] - b[0];
+		});
+		if (ind < 0) {
+			int[] first = keyPoss[-(ind + 1) - 1];
+			int si = -(ind + 1);
+			if (si < keyPoss.length) {
+				int[] second = keyPoss[si];
+				int dt = second[0] - first[0], midT = n - first[0];
+				loc.setLocation(first[1] + (second[1] - first[1]) * midT / dt,
+						first[2] + (second[2] - first[2]) * midT / dt);
+			} else
+				loc.setLocation(first[1], first[2]);
+		} else
+			loc.setLocation(keyPoss[ind][1], keyPoss[ind][2]);
 	}
 
 	public void paint(Graphics2D g) {

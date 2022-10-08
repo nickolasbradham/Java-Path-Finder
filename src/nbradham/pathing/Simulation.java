@@ -9,6 +9,7 @@ import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -27,9 +28,11 @@ final class Simulation extends JPanel {
 	static final byte CELL_S = 50, CELL_S_METERS = 1;
 
 	private final SimThread thread = new SimThread();
+	private final JLabel stepLabel = new JLabel("Waiting...");
 
-	private Human[] humans = new Human[0];
+	private KeyframedObject[] humans = new KeyframedObject[0];
 	private Bot bot = new Bot(-1, -1, -1, -1);
+	private short step = 0;
 	private boolean usingAStar = false;
 
 	/**
@@ -53,19 +56,19 @@ final class Simulation extends JPanel {
 
 		scan.nextLine();
 
-		ArrayList<Human> humansT = new ArrayList<>();
+		ArrayList<KeyframedObject> humansT = new ArrayList<>();
 		while (scan.hasNextLine()) {
 			String[] split = scan.nextLine().split(" ");
-			ArrayList<short[]> keyPoss = new ArrayList<>();
+			ArrayList<int[]> keyPoss = new ArrayList<>();
 			byte i = 0;
 			while (i < split.length)
-				keyPoss.add(new short[] { Short.parseShort(split[i++]), Short.parseShort(split[i++]),
+				keyPoss.add(new int[] { Short.parseShort(split[i++]), Short.parseShort(split[i++]),
 						Short.parseShort(split[i++]) });
-			humansT.add(new Human(keyPoss.toArray(new short[0][])));
+			humansT.add(new KeyframedObject(keyPoss.toArray(new int[0][])));
 		}
 
 		scan.close();
-		humans = humansT.toArray(new Human[0]);
+		humans = humansT.toArray(new KeyframedObject[0]);
 		repaint();
 	}
 
@@ -95,8 +98,9 @@ final class Simulation extends JPanel {
 	 */
 	final void step() {
 		if (bot.hasPath()) {
-			for (Human h : humans)
-				h.step();
+			step++;
+			for (KeyframedObject h : humans)
+				h.step(step);
 			bot.step();
 		} else
 			bot.stepPathing();
@@ -108,7 +112,10 @@ final class Simulation extends JPanel {
 	 * Resets the simulation to the initial state.
 	 */
 	final void reset() {
-		// TODO: Add function.
+		step = 0;
+		for (KeyframedObject h : humans)
+			h.step(step);
+		bot.reset();
 	}
 
 	/**
@@ -132,13 +139,15 @@ final class Simulation extends JPanel {
 
 	@Override
 	public final void paint(Graphics g) {
+		stepLabel.setText("Step: " + step);
+
 		g.clearRect(0, 0, getWidth(), getHeight());
 		for (short x = 0; x < getWidth(); x += CELL_S)
 			g.drawLine(x, 0, x, getHeight());
 		for (short y = 0; y < getHeight(); y += CELL_S)
 			g.drawLine(0, y, getWidth(), y);
 
-		for (Human h : humans)
+		for (KeyframedObject h : humans)
 			h.paint((Graphics2D) g);
 
 		bot.paint(g);
@@ -184,7 +193,7 @@ final class Simulation extends JPanel {
 
 		@Override
 		public final void run() {
-			for (byte i = 0; i < 50; i++) {
+			while (true) {
 				step();
 				try {
 					sleep(wait);
@@ -199,7 +208,7 @@ final class Simulation extends JPanel {
 		}
 	}
 
-	static short toPixels(double meters) {
-		return (short) (meters * CELL_S / CELL_S_METERS);
+	JLabel getStepLabel() {
+		return stepLabel;
 	}
 }
