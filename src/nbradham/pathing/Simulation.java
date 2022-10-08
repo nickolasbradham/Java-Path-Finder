@@ -116,7 +116,12 @@ final class Simulation extends JPanel {
 		case NO_PATH:
 			labelText = "No path.";
 			pause();
+			break;
+		case END_REACHED:
+			labelText = "End reached";
+			pause();
 		}
+
 		SwingUtilities.invokeLater(() -> repaint());
 	}
 
@@ -147,6 +152,15 @@ final class Simulation extends JPanel {
 	 */
 	final void setWait(short wait) {
 		thread.setWait(wait);
+	}
+
+	/**
+	 * Retrieves the JLabel that will show simulation information.
+	 * 
+	 * @return The JLabel that is controlled by this Simulation.
+	 */
+	JLabel getStepLabel() {
+		return stepLabel;
 	}
 
 	@Override
@@ -218,14 +232,5 @@ final class Simulation extends JPanel {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Retrieves the JLabel that will show simulation information.
-	 * 
-	 * @return The JLabel that is controlled by this Simulation.
-	 */
-	JLabel getStepLabel() {
-		return stepLabel;
 	}
 }

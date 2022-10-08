@@ -14,8 +14,14 @@ import nbradham.pathing.algorithms.PathingAlgorithm;
  */
 final class Bot extends KeyframedObject {
 
+	/**
+	 * Represents the current state of a {@link Bot} instance.
+	 * 
+	 * @author Nickolas Bradham
+	 *
+	 */
 	static enum BotState {
-		PATHING, NO_PATH, READY
+		PATHING, NO_PATH, READY, END_REACHED
 	};
 
 	private static final short HITBOX_RADIUS = 25;
@@ -90,5 +96,13 @@ final class Bot extends KeyframedObject {
 
 		g.setColor(Color.MAGENTA);
 		g.fillRect(end.x - 10, end.y - 10, 20, 20);
+	}
+
+	@Override
+	void step(short frame) {
+		if (frame >= keyPoss.length)
+			state = BotState.END_REACHED;
+		else
+			super.step(frame);
 	}
 }
