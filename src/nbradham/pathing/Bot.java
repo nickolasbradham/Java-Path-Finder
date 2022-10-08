@@ -1,5 +1,9 @@
 package nbradham.pathing;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+
 import nbradham.pathing.algorithms.PathingAlgorithm;
 
 /**
@@ -10,29 +14,17 @@ import nbradham.pathing.algorithms.PathingAlgorithm;
  */
 final class Bot {
 
+	private static final short HITBOX_RADIUS = Simulation.toPixels(.5);
+	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2;
+
+	private final Point start, end;
 	private PathingAlgorithm alg;
-	private short startX, startY, targetX, targetY;
+	private Point loc;
 
-	/**
-	 * Sets the start location of the robot.
-	 * 
-	 * @param x Start x.
-	 * @param y Start y.
-	 */
-	void setStart(short x, short y) {
-		startX = x;
-		startY = y;
-	}
-
-	/**
-	 * Sets the target of the robot.
-	 * 
-	 * @param x Target x.
-	 * @param y Target y.
-	 */
-	void setTarget(short x, short y) {
-		targetX = x;
-		targetY = y;
+	Bot(int startX, int startY, int endX, int endY) {
+		start = new Point(startX, startY);
+		loc = new Point(start);
+		end = new Point(endX, endY);
 	}
 
 	/**
@@ -42,5 +34,23 @@ final class Bot {
 	 */
 	void setAlgorithm(PathingAlgorithm algorithm) {
 		alg = algorithm;
+	}
+
+	boolean hasPath() {
+		// TODO: Figure this out.
+		return false;
+	}
+
+	void step() {
+		// TODO: Figure this out.
+	}
+
+	void stepPathing() {
+		// TODO Figure this out.
+	}
+
+	void paint(Graphics g) {
+		g.setColor(Color.GRAY);
+		g.fillOval(loc.x - HITBOX_RADIUS, loc.y - HITBOX_RADIUS, HITBOX_DIAMETER, HITBOX_DIAMETER);
 	}
 }
