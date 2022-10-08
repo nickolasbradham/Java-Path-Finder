@@ -72,6 +72,9 @@ final class Simulation extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Updates the {@link PathingAlgorithm} of the robot.
+	 */
 	private void updateBotPather() {
 		bot.setAlgorithm(usingAStar ? new AStarPather() : new DijkstraPather());
 	}
@@ -101,7 +104,7 @@ final class Simulation extends JPanel {
 			step++;
 			for (KeyframedObject h : humans)
 				h.step(step);
-			bot.step();
+			bot.step(step);
 		} else
 			bot.stepPathing();
 		// TODO: Finish step code.
@@ -208,6 +211,11 @@ final class Simulation extends JPanel {
 		}
 	}
 
+	/**
+	 * Retrieves the JLabel that will show simulation information.
+	 * 
+	 * @return The JLabel that is controlled by this Simulation.
+	 */
 	JLabel getStepLabel() {
 		return stepLabel;
 	}

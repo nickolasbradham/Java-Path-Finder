@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.util.Arrays;
 
 /**
- * Represents a human obstacle.
+ * Represents a object with key framed movements.
  * 
  * @author Nickolas Bradham
  *
@@ -20,11 +20,24 @@ class KeyframedObject {
 	private final int[][] keyPoss;
 	private Point loc;
 
+	/**
+	 * Constructs a new KeyframedObject and sets the frames.
+	 * 
+	 * @param setKeyPoss A array of 3 element int arrays. The order of the elements
+	 *                   is {@code frameNum, x, y}.
+	 */
 	public KeyframedObject(int[][] setKeyPoss) {
 		keyPoss = setKeyPoss;
 		loc = new Point(keyPoss[0][1], keyPoss[0][2]);
 	}
 
+	/**
+	 * Updates the position of this object to frame {@code n} as determined by the
+	 * key frames stored in this object. It will calculate it's position between two
+	 * frames if key frame {@code n} does not exist.
+	 * 
+	 * @param n The target frame.
+	 */
 	void step(short n) {
 		int ind = Arrays.binarySearch(keyPoss, new int[] { n }, (int[] a, int[] b) -> {
 			return a[0] - b[0];
@@ -43,6 +56,11 @@ class KeyframedObject {
 			loc.setLocation(keyPoss[ind][1], keyPoss[ind][2]);
 	}
 
+	/**
+	 * Paints the object to Graphics {@code g}.
+	 * 
+	 * @param g The graphics to paint to.
+	 */
 	public void paint(Graphics2D g) {
 		g.setColor(new Color(0, 0, 0, 32));
 		g.fillOval(loc.x - PERSONAL_RADIUS, loc.y - PERSONAL_RADIUS, PERSONAL_DIAMETER, PERSONAL_DIAMETER);
