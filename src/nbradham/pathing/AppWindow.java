@@ -1,16 +1,18 @@
 package nbradham.pathing;
 
-import java.awt.Dimension;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -24,13 +26,17 @@ final class AppWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private static final String ACT_OPEN = "open", ACT_RUN = "run", ACT_PAUSE = "pause", ACT_STEP = "step",
-			ACT_RESET = "reset";
+			ACT_RESET = "reset", ACT_ALGORITHM = "algorithm", ACT_WAIT = "wait", ALGORITHM_A_STAR = "A*",
+			ALGORITHM_DIJKSTRAS = "Dijkstra's";
 
 	private final Simulation sim = new Simulation();
-	private final JMenuItem runItem = createJMenuItem("Run", ACT_RUN, KeyEvent.VK_R),
-			pauseItem = createJMenuItem("Pause", ACT_PAUSE, KeyEvent.VK_P),
-			stepItem = createJMenuItem("Step", ACT_STEP, KeyEvent.VK_S),
-			resetItem = createJMenuItem("Reset", ACT_RESET, KeyEvent.VK_E);
+	private final JButton runItem = createJButton("Run", ACT_RUN, KeyEvent.VK_R),
+			pauseItem = createJButton("Pause", ACT_PAUSE, KeyEvent.VK_P),
+			stepItem = createJButton("Step", ACT_STEP, KeyEvent.VK_S),
+			resetItem = createJButton("Reset", ACT_RESET, KeyEvent.VK_E);
+	private final JComboBox<String> algorithmBox = new JComboBox<>(
+			new String[] { ALGORITHM_A_STAR, ALGORITHM_DIJKSTRAS }),
+			waitBox = new JComboBox<>(new String[] { "1000", "500", "250", "100", "50", "17" });
 
 	/**
 	 * Constructs a new AppWindow instance.
@@ -38,19 +44,35 @@ final class AppWindow extends JFrame implements ActionListener {
 	private AppWindow() {
 		super("Pathing App");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
 
-		JMenuBar bar = new JMenuBar();
-		JMenuItem openItem = createJMenuItem("Open", ACT_OPEN, KeyEvent.VK_O);
+		JPanel controls = new JPanel();
+		JButton openItem = createJButton("Open", ACT_OPEN, KeyEvent.VK_O);
 		openItem.setEnabled(true);
-		bar.add(openItem);
-		bar.add(runItem);
-		bar.add(pauseItem);
-		bar.add(stepItem);
-		bar.add(resetItem);
-		setJMenuBar(bar);
+		controls.add(openItem);
+		controls.add(runItem);
+		controls.add(pauseItem);
+		controls.add(stepItem);
+		controls.add(resetItem);
 
-		sim.setPreferredSize(new Dimension(1300, 700));
-		setContentPane(sim);
+		controls.add(new JLabel("Algorithm:"));
+		algorithmBox.setActionCommand(ACT_ALGORITHM);
+		algorithmBox.addActionListener(this);
+		updateAlgorithm();
+		controls.add(algorithmBox);
+
+		controls.add(new JLabel("Step Wait (ms):"));
+		waitBox.setActionCommand(ACT_WAIT);
+		waitBox.addActionListener(this);
+		waitBox.setEditable(true);
+		updateWait();
+		controls.add(waitBox);
+
+		add(controls, BorderLayout.NORTH);
+
+		JPanel wrap = new JPanel();
+		wrap.add(sim);
+		add(wrap, BorderLayout.CENTER);
 		pack();
 	}
 
@@ -59,16 +81,36 @@ final class AppWindow extends JFrame implements ActionListener {
 	 * 
 	 * @param txt The text displayed by the item.
 	 * @param act The action command of the item.
-	 * @param key The {@link KeyEvent} VK code of the accelerator key.
+	 * @param key The {@link KeyEvent} VK code of the mnemonic key.
 	 * @return The new JMenuItem instance.
 	 */
-	private JMenuItem createJMenuItem(String txt, String act, int key) {
-		JMenuItem jmi = new JMenuItem(txt);
-		jmi.setActionCommand(act);
-		jmi.addActionListener(this);
-		jmi.setAccelerator(KeyStroke.getKeyStroke(key, KeyEvent.CTRL_DOWN_MASK));
-		jmi.setEnabled(false);
-		return jmi;
+	private JButton createJButton(String txt, String act, int key) {
+		JButton jb = new JButton(txt);
+		jb.setActionCommand(act);
+		jb.addActionListener(this);
+		jb.setMnemonic(key);
+		jb.setEnabled(false);
+		return jb;
+	}
+
+	/**
+	 * Updates the simulation algorithm.
+	 */
+	private void updateAlgorithm() {
+		sim.setUsingAStar(algorithmBox.getSelectedItem().equals(ALGORITHM_A_STAR));
+	}
+
+	/**
+	 * Updates the simulation speed.
+	 */
+	private void updateWait() {
+		try {
+			sim.setWait(Short.parseShort((String) waitBox.getSelectedItem()));
+			waitBox.getEditor().getEditorComponent().setForeground(getForeground());
+		} catch (NumberFormatException e) {
+			waitBox.getEditor().getEditorComponent().setForeground(Color.RED);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -108,6 +150,12 @@ final class AppWindow extends JFrame implements ActionListener {
 		case ACT_RESET:
 			sim.reset();
 			sim.repaint();
+			break;
+		case ACT_ALGORITHM:
+			updateAlgorithm();
+			break;
+		case ACT_WAIT:
+			updateWait();
 		}
 	}
 

@@ -1,15 +1,21 @@
 package nbradham.pathing;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
+/**
+ * Represents a human obstacle.
+ * 
+ * @author Nickolas Bradham
+ *
+ */
 final class Human {
 
-	private final ArrayList<Point> poss = new ArrayList<>();
-
+	/**
+	 * Adds a key position of this human.
+	 * 
+	 * @param x Position x.
+	 * @param y Position y.
+	 * @param t Position time.
+	 */
 	void addKeyPos(short x, short y, short t) {
-		if (poss.size() < t) {
-			Point last = poss.get(poss.size() - 1);
-		}
+		// TODO: Figure this out.
 	}
 }

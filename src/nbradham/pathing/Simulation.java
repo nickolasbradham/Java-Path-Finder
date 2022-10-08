@@ -1,5 +1,6 @@
 package nbradham.pathing;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +10,9 @@ import java.util.Scanner;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import nbradham.pathing.algorithms.AStarPather;
+import nbradham.pathing.algorithms.DijkstraPather;
 
 /**
  * Handles simulation execution and drawing.
@@ -24,6 +28,20 @@ final class Simulation extends JPanel {
 	private final ArrayList<Human> humans = new ArrayList<>();
 	private final Bot bot = new Bot();
 
+	/**
+	 * Constructs a new Simulation.
+	 */
+	Simulation() {
+		super();
+		setPreferredSize(new Dimension(1300, 700));
+	}
+
+	/**
+	 * Loads a simulation file.
+	 * 
+	 * @param file The file to load.
+	 * @throws FileNotFoundException Thrown by {@link Scanner#Scanner(File)}.
+	 */
 	final void load(File file) throws FileNotFoundException {
 		Scanner scan = new Scanner(file);
 		bot.setStart(scan.nextShort(), scan.nextShort());
@@ -70,6 +88,24 @@ final class Simulation extends JPanel {
 		// TODO: Add function.
 	}
 
+	/**
+	 * Sets the algorithm for the bot.
+	 * 
+	 * @param useAStar Set to true to use A*, false for Dijkstra's.
+	 */
+	final void setUsingAStar(boolean useAStar) {
+		bot.setAlgorithm(useAStar ? new AStarPather() : new DijkstraPather());
+	}
+
+	/**
+	 * Sets the wait time of the {@link SimulationThread}.
+	 * 
+	 * @param wait The new wait time.
+	 */
+	final void setWait(short wait) {
+		thread.setWait(wait);
+	}
+
 	@Override
 	public final void paint(Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
@@ -88,6 +124,7 @@ final class Simulation extends JPanel {
 	private final class SimThread extends Thread {
 
 		private final Object lock = new Object();
+		private short wait;
 		private boolean pause = false;
 
 		/**
@@ -107,12 +144,22 @@ final class Simulation extends JPanel {
 			}
 		}
 
+		/**
+		 * Sets the wait time of this thread.
+		 * 
+		 * @param waitTime The new wait time in milliseconds.
+		 */
+		private void setWait(short waitTime) {
+			wait = waitTime;
+			System.out.printf("Wait set: %d%n", wait);
+		}
+
 		@Override
 		public final void run() {
 			for (byte i = 0; i < 50; i++) {
 				step();
 				try {
-					sleep(100);
+					sleep(wait);
 					if (pause)
 						synchronized (lock) {
 							lock.wait();
