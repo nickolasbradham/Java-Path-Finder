@@ -21,7 +21,7 @@ final class Bot extends KeyframedObject {
 	 *
 	 */
 	static enum BotState {
-		PATHING, NO_PATH, READY, END_REACHED
+		PATHING, NO_PATH, MOVING, END_REACHED
 	};
 
 	private static final short HITBOX_RADIUS = 25;
@@ -70,7 +70,7 @@ final class Bot extends KeyframedObject {
 		if (alg.isFinished())
 			if (alg.hasPath()) {
 				keyPoss = alg.generateKeyframes();
-				state = BotState.READY;
+				state = BotState.MOVING;
 			} else
 				state = BotState.NO_PATH;
 		else

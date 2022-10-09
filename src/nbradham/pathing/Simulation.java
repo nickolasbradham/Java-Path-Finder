@@ -102,7 +102,7 @@ final class Simulation extends JPanel {
 	 */
 	final void step() {
 		switch (bot.getState()) {
-		case READY:
+		case MOVING:
 			step++;
 			labelText = "Step: " + step;
 			for (KeyframedObject h : humans)
