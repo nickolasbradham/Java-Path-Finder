@@ -34,7 +34,7 @@ final class Simulation extends JPanel {
 
 	private KeyframedObject[] humans = new KeyframedObject[0];
 	private Bot bot = new Bot(-1, -1, -1, -1);
-	private String labelText = "";
+	private String labelText = "Waiting...";
 	private short step = 0;
 	private boolean usingAStar = false;
 
@@ -132,7 +132,7 @@ final class Simulation extends JPanel {
 			bot.stepPathing();
 			break;
 		case NO_PATH:
-			labelText = "No path.";
+			labelText = "No path";
 			pause();
 			break;
 		case END_REACHED:
@@ -151,6 +151,7 @@ final class Simulation extends JPanel {
 		for (KeyframedObject h : humans)
 			h.step(step);
 		bot.reset();
+		labelText = "Reset.";
 	}
 
 	/**
