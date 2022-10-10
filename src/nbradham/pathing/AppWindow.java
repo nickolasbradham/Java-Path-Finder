@@ -67,7 +67,7 @@ final class AppWindow extends JFrame implements ActionListener {
 		waitBox.setEditable(true);
 		updateWait();
 		controls.add(waitBox);
-		
+
 		controls.add(sim.getStepLabel());
 
 		add(controls, BorderLayout.NORTH);
@@ -123,13 +123,10 @@ final class AppWindow extends JFrame implements ActionListener {
 			jfc.setDialogTitle("Open Sim File");
 			jfc.setFileFilter(new FileNameExtensionFilter("Simulation Data File", "sim"));
 			if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-				try {
-					sim.load(jfc.getSelectedFile());
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
+				if (sim.load(jfc.getSelectedFile())) {
+					runItem.setEnabled(true);
+					stepItem.setEnabled(true);
 				}
-				runItem.setEnabled(true);
-				stepItem.setEnabled(true);
 			}
 			break;
 		case ACT_RUN:

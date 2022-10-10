@@ -7,9 +7,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.Thread.State;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -48,10 +50,17 @@ final class Simulation extends JPanel {
 	 * Loads a simulation file.
 	 * 
 	 * @param file The file to load.
-	 * @throws FileNotFoundException Thrown by {@link Scanner#Scanner(File)}.
+	 * @return True if the file was loaded successfully.
 	 */
-	final void load(File file) throws FileNotFoundException {
-		Scanner scan = new Scanner(file);
+	final boolean load(File file) {
+		Scanner scan;
+		try {
+			scan = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "File was not found.", "Sim Load Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 		bot = new Bot(scan.nextShort(), scan.nextShort(), scan.nextShort(), scan.nextShort());
 		updateBotPather();
 
@@ -65,12 +74,21 @@ final class Simulation extends JPanel {
 			while (i < split.length)
 				keyPoss.add(new int[] { Short.parseShort(split[i++]), Short.parseShort(split[i++]),
 						Short.parseShort(split[i++]) });
-			humansT.add(new KeyframedObject(keyPoss.toArray(new int[0][])));
+			int[][] sort = keyPoss.toArray(new int[0][]);
+			Arrays.sort(sort, KeyframedObject.KEYFRAME_SORTER);
+			if (sort[0][0] != 0) {
+				JOptionPane.showMessageDialog(this, "At least one object is missing an initial (0) keyframe.",
+						"Sim Data Error", JOptionPane.ERROR_MESSAGE);
+				scan.close();
+				return false;
+			}
+			humansT.add(new KeyframedObject(sort));
 		}
-
 		scan.close();
+
 		humans = humansT.toArray(new KeyframedObject[0]);
 		repaint();
+		return true;
 	}
 
 	/**

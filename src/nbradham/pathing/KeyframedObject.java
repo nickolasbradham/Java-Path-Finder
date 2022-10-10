@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Represents a object with key framed movements.
@@ -14,6 +15,9 @@ import java.util.Arrays;
  */
 class KeyframedObject {
 
+	static final Comparator<int[]> KEYFRAME_SORTER = (int[] a, int[] b) -> {
+		return a[0] - b[0];
+	};
 	private static final short HITBOX_RADIUS = 25, PERSONAL_RADIUS = 75;
 	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2, PERSONAL_DIAMETER = PERSONAL_RADIUS * 2;
 
@@ -39,9 +43,7 @@ class KeyframedObject {
 	 * @param n The target frame.
 	 */
 	void step(short n) {
-		int ind = Arrays.binarySearch(keyPoss, new int[] { n }, (int[] a, int[] b) -> {
-			return a[0] - b[0];
-		});
+		int ind = Arrays.binarySearch(keyPoss, new int[] { n }, KEYFRAME_SORTER);
 		if (ind < 0) {
 			int[] first = keyPoss[-(ind + 1) - 1];
 			int si = -(ind + 1);
