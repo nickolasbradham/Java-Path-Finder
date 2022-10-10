@@ -1,17 +1,25 @@
 package nbradham.pathing.algorithms;
 
+import nbradham.pathing.Simulation;
+
 /**
  * Interface for path finding algorithms.
  * 
  * @author Nickolas Bradham
  *
  */
-public sealed interface PathingAlgorithm permits AStarPather, DijkstraPather {
+public sealed abstract class PathingAlgorithm permits AStarPather, DijkstraPather {
+
+	protected final Simulation sim;
+
+	protected PathingAlgorithm(Simulation setSim) {
+		sim = setSim;
+	}
 
 	/**
 	 * Steps the algorithm forward one cycle.
 	 */
-	void step();
+	public abstract void step();
 
 	/**
 	 * Retrieves if the algorithm is finished.
@@ -19,19 +27,19 @@ public sealed interface PathingAlgorithm permits AStarPather, DijkstraPather {
 	 * @return True if the algorithm has found a path or concluded that no path
 	 *         exists.
 	 */
-	boolean isFinished();
+	public abstract boolean isFinished();
 
 	/**
 	 * Retrieves if the algorithm found a path.
 	 * 
 	 * @return True if the algorithm has found a valid path.
 	 */
-	boolean hasPath();
+	public abstract boolean hasPath();
 
 	/**
 	 * Generates the animation key frames.
 	 * 
 	 * @return The key frames in an {@code int[][]}.
 	 */
-	int[][] generateKeyframes();
+	public abstract int[][] generateKeyframes();
 }

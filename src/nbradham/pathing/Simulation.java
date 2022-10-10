@@ -24,7 +24,7 @@ import nbradham.pathing.algorithms.DijkstraPather;
  * @author Nickolas Bradham
  *
  */
-final class Simulation extends JPanel {
+public final class Simulation extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	static final byte CELL_S = 50;
@@ -95,7 +95,7 @@ final class Simulation extends JPanel {
 	 * Updates the {@link PathingAlgorithm} of the robot.
 	 */
 	private void updateBotPather() {
-		bot.setAlgorithm(usingAStar ? new AStarPather() : new DijkstraPather());
+		bot.setAlgorithm(usingAStar ? new AStarPather(this) : new DijkstraPather(this));
 	}
 
 	/**

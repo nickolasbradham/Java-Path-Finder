@@ -1,12 +1,18 @@
 package nbradham.pathing.algorithms;
 
+import nbradham.pathing.Simulation;
+
 /**
  * Handles Dijkstra's path finding.
  * 
  * @author Nickolas Bradham
  *
  */
-public final class DijkstraPather implements PathingAlgorithm {
+public final class DijkstraPather extends PathingAlgorithm {
+
+	public DijkstraPather(Simulation setSim) {
+		super(setSim);
+	}
 
 	@Override
 	public void step() {
