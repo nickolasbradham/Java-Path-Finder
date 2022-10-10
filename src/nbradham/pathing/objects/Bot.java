@@ -38,7 +38,7 @@ public final class Bot extends KeyframedObject {
 	 * @param endY   The target Y of the bot.
 	 */
 	public Bot(int startX, int startY, int endX, int endY) {
-		super(new int[][] { { 0, startX, startY } });
+		super(new int[][] { { 0, startX, startY } }, Color.GRAY);
 		start = new Point(startX, startY);
 		end = new Point(endX, endY);
 	}

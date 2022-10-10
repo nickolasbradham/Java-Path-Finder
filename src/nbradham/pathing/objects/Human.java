@@ -21,7 +21,7 @@ public final class Human extends KeyframedObject {
 	 * @param setKeyPoss Sets the key frame data of this Human.
 	 */
 	public Human(int[][] setKeyPoss) {
-		super(setKeyPoss);
+		super(setKeyPoss, Color.BLACK);
 	}
 
 	@Override

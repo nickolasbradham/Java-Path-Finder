@@ -24,16 +24,19 @@ public abstract class KeyframedObject {
 
 	protected int[][] keyPoss;
 	protected Point loc;
+	private final Color col;
 
 	/**
 	 * Constructs a new KeyframedObject and sets the frames.
 	 * 
 	 * @param setKeyPoss A array of 3 element int arrays. The order of the elements
 	 *                   is {@code frameNum, x, y}.
+	 * @param setCol     Sets the color of the object when painted to the GUI.
 	 */
-	public KeyframedObject(int[][] setKeyPoss) {
+	public KeyframedObject(int[][] setKeyPoss, Color setCol) {
 		keyPoss = setKeyPoss;
 		loc = new Point(keyPoss[0][1], keyPoss[0][2]);
+		col = setCol;
 	}
 
 	/**
@@ -72,7 +75,7 @@ public abstract class KeyframedObject {
 			g.drawLine(keyPoss[last][1], keyPoss[last][2], keyPoss[i][1], keyPoss[i][2]);
 		}
 
-		g.setColor(Color.BLACK);
+		g.setColor(col);
 		g.fillOval(loc.x - HITBOX_RADIUS, loc.y - HITBOX_RADIUS, HITBOX_DIAMETER, HITBOX_DIAMETER);
 	}
 }
