@@ -10,6 +10,11 @@ import nbradham.pathing.Simulation;
  */
 public final class DijkstraPather extends PathingAlgorithm {
 
+	/**
+	 * Constructs a new DijkstraPather instance.
+	 * 
+	 * @param setSim The Simulation to pull info from.
+	 */
 	public DijkstraPather(Simulation setSim) {
 		super(setSim);
 	}

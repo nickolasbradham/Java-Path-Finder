@@ -1,7 +1,8 @@
-package nbradham.pathing;
+package nbradham.pathing.objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 import nbradham.pathing.algorithms.PathingAlgorithm;
@@ -12,7 +13,7 @@ import nbradham.pathing.algorithms.PathingAlgorithm;
  * @author Nickolas Bradham
  *
  */
-final class Bot extends KeyframedObject {
+public final class Bot extends KeyframedObject {
 
 	/**
 	 * Represents the current state of a {@link Bot} instance.
@@ -20,12 +21,9 @@ final class Bot extends KeyframedObject {
 	 * @author Nickolas Bradham
 	 *
 	 */
-	static enum BotState {
+	public static enum BotState {
 		PATHING, NO_PATH, MOVING, END_REACHED
 	};
-
-	private static final short HITBOX_RADIUS = 25;
-	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2;
 
 	private final Point start, end;
 	private PathingAlgorithm alg;
@@ -39,7 +37,7 @@ final class Bot extends KeyframedObject {
 	 * @param endX   The target X of the bot.
 	 * @param endY   The target Y of the bot.
 	 */
-	Bot(int startX, int startY, int endX, int endY) {
+	public Bot(int startX, int startY, int endX, int endY) {
 		super(new int[][] { { 0, startX, startY } });
 		start = new Point(startX, startY);
 		end = new Point(endX, endY);
@@ -50,7 +48,7 @@ final class Bot extends KeyframedObject {
 	 * 
 	 * @param algorithm The desired algorithm.
 	 */
-	void setAlgorithm(PathingAlgorithm algorithm) {
+	public void setAlgorithm(PathingAlgorithm algorithm) {
 		alg = algorithm;
 	}
 
@@ -59,14 +57,14 @@ final class Bot extends KeyframedObject {
 	 * 
 	 * @return True if the bot has found a path.
 	 */
-	BotState getState() {
+	public BotState getState() {
 		return state;
 	}
 
 	/**
 	 * Steps the path finding algorithm.
 	 */
-	void stepPathing() {
+	public void stepPathing() {
 		if (alg.isFinished())
 			if (alg.hasPath()) {
 				keyPoss = alg.generateKeyframes();
@@ -80,7 +78,7 @@ final class Bot extends KeyframedObject {
 	/**
 	 * Resets the bot to the initial position and configuration.
 	 */
-	void reset() {
+	public void reset() {
 		keyPoss = new int[][] { { 0, start.x, start.y } };
 		state = BotState.PATHING;
 	}
@@ -90,16 +88,14 @@ final class Bot extends KeyframedObject {
 	 * 
 	 * @param g The Graphics to draw the bot to.
 	 */
-	void paint(Graphics g) {
-		g.setColor(Color.GRAY);
-		g.fillOval(loc.x - HITBOX_RADIUS, loc.y - HITBOX_RADIUS, HITBOX_DIAMETER, HITBOX_DIAMETER);
-
+	public void paint(Graphics g) {
 		g.setColor(Color.MAGENTA);
 		g.fillRect(end.x - 10, end.y - 10, 20, 20);
+		super.paint((Graphics2D) g);
 	}
 
 	@Override
-	void step(short frame) {
+	public void step(short frame) {
 		if (frame >= keyPoss.length)
 			state = BotState.END_REACHED;
 		else

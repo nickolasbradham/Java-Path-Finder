@@ -10,6 +10,11 @@ import nbradham.pathing.Simulation;
  */
 public final class AStarPather extends PathingAlgorithm {
 
+	/**
+	 * Constructs a new AStarPather instance.
+	 * 
+	 * @param setSim The Simulation to pull info from.
+	 */
 	public AStarPather(Simulation setSim) {
 		super(setSim);
 	}

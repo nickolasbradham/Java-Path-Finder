@@ -17,6 +17,9 @@ import javax.swing.SwingUtilities;
 
 import nbradham.pathing.algorithms.AStarPather;
 import nbradham.pathing.algorithms.DijkstraPather;
+import nbradham.pathing.objects.Bot;
+import nbradham.pathing.objects.Human;
+import nbradham.pathing.objects.KeyframedObject;
 
 /**
  * Handles simulation execution and drawing.
@@ -82,7 +85,7 @@ public final class Simulation extends JPanel {
 				scan.close();
 				return false;
 			}
-			humansT.add(new KeyframedObject(sort));
+			humansT.add(new Human(sort));
 		}
 		scan.close();
 

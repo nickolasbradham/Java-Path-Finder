@@ -1,4 +1,4 @@
-package nbradham.pathing;
+package nbradham.pathing.objects;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,13 +13,14 @@ import java.util.Comparator;
  * @author Nickolas Bradham
  *
  */
-class KeyframedObject {
+public abstract class KeyframedObject {
 
-	static final Comparator<int[]> KEYFRAME_SORTER = (int[] a, int[] b) -> {
+	public static final Comparator<int[]> KEYFRAME_SORTER = (int[] a, int[] b) -> {
 		return a[0] - b[0];
 	};
-	private static final short HITBOX_RADIUS = 25, PERSONAL_RADIUS = 75;
-	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2, PERSONAL_DIAMETER = PERSONAL_RADIUS * 2;
+
+	private static final short HITBOX_RADIUS = 25;
+	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2;
 
 	protected int[][] keyPoss;
 	protected Point loc;
@@ -42,7 +43,7 @@ class KeyframedObject {
 	 * 
 	 * @param n The target frame.
 	 */
-	void step(short n) {
+	public void step(short n) {
 		int ind = Arrays.binarySearch(keyPoss, new int[] { n }, KEYFRAME_SORTER);
 		if (ind < 0) {
 			int[] first = keyPoss[-(ind + 1) - 1];
@@ -70,9 +71,6 @@ class KeyframedObject {
 			int last = i - 1;
 			g.drawLine(keyPoss[last][1], keyPoss[last][2], keyPoss[i][1], keyPoss[i][2]);
 		}
-
-		g.setColor(new Color(0, 0, 0, 32));
-		g.fillOval(loc.x - PERSONAL_RADIUS, loc.y - PERSONAL_RADIUS, PERSONAL_DIAMETER, PERSONAL_DIAMETER);
 
 		g.setColor(Color.BLACK);
 		g.fillOval(loc.x - HITBOX_RADIUS, loc.y - HITBOX_RADIUS, HITBOX_DIAMETER, HITBOX_DIAMETER);

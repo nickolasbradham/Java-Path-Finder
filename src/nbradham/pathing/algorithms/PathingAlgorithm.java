@@ -12,6 +12,11 @@ public sealed abstract class PathingAlgorithm permits AStarPather, DijkstraPathe
 
 	protected final Simulation sim;
 
+	/**
+	 * Constructs a new PathingAlgorithm instance.
+	 * 
+	 * @param setSim The Simulation to pull info from.
+	 */
 	protected PathingAlgorithm(Simulation setSim) {
 		sim = setSim;
 	}
