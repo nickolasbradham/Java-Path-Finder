@@ -3,6 +3,7 @@ package nbradham.pathing;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.Thread.State;
@@ -30,12 +31,12 @@ import nbradham.pathing.objects.KeyframedObject;
 public final class Simulation extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	static final byte CELL_S = 50;
+	public static final byte CELL_S = 50, GRID_W = 26, GRID_H = 14;
 
 	private final SimThread thread = new SimThread();
 	private final JLabel stepLabel = new JLabel("Waiting...");
 
-	private KeyframedObject[] humans = new KeyframedObject[0];
+	private Human[] humans = new Human[0];
 	private Bot bot = new Bot(-1, -1, -1, -1);
 	private String labelText = "Waiting...";
 	private short step = 0;
@@ -46,7 +47,7 @@ public final class Simulation extends JPanel {
 	 */
 	Simulation() {
 		super();
-		setPreferredSize(new Dimension(1300, 700));
+		setPreferredSize(new Dimension(GRID_W * CELL_S, GRID_H * CELL_S));
 	}
 
 	/**
@@ -89,7 +90,7 @@ public final class Simulation extends JPanel {
 		}
 		scan.close();
 
-		humans = humansT.toArray(new KeyframedObject[0]);
+		humans = humansT.toArray(new Human[0]);
 		repaint();
 		return true;
 	}
@@ -154,7 +155,9 @@ public final class Simulation extends JPanel {
 		for (KeyframedObject h : humans)
 			h.step(step);
 		bot.reset();
+		updateBotPather();
 		labelText = "Reset.";
+		repaint();
 	}
 
 	/**
@@ -199,6 +202,14 @@ public final class Simulation extends JPanel {
 			h.paint((Graphics2D) g);
 
 		bot.paint(g);
+	}
+
+	public boolean isPointInPersonalSpace(int nx, int ny) {
+		Point p = new Point(nx, ny);
+		for (Human h : humans)
+			if (h.isPointInPS(p))
+				return true;
+		return false;
 	}
 
 	/**

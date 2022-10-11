@@ -1,5 +1,8 @@
 package nbradham.pathing.algorithms;
 
+import java.awt.Graphics;
+import java.awt.Point;
+
 import nbradham.pathing.Simulation;
 
 /**
@@ -40,5 +43,15 @@ public final class DijkstraPather extends PathingAlgorithm {
 	public int[][] generateKeyframes() {
 		// TODO Implement Dijkstra's.
 		return null;
+	}
+
+	@Override
+	public void setPoints(Point start, Point end) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void paint(Graphics g) {
+
 	}
 }

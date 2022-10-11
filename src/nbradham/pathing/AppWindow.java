@@ -147,7 +147,6 @@ final class AppWindow extends JFrame implements ActionListener {
 			break;
 		case ACT_RESET:
 			sim.reset();
-			sim.repaint();
 			break;
 		case ACT_ALGORITHM:
 			updateAlgorithm();

@@ -1,5 +1,8 @@
 package nbradham.pathing.algorithms;
 
+import java.awt.Graphics;
+import java.awt.Point;
+
 import nbradham.pathing.Simulation;
 
 /**
@@ -47,4 +50,18 @@ public sealed abstract class PathingAlgorithm permits AStarPather, DijkstraPathe
 	 * @return The key frames in an {@code int[][]}.
 	 */
 	public abstract int[][] generateKeyframes();
+
+	/**
+	 * Sets the start and end point of the algorithm.
+	 * 
+	 * @param start The start Point.
+	 * @param end   The end Point.
+	 */
+	public abstract void setPoints(Point start, Point end);
+
+	protected static final Point toCellCords(Point p) {
+		return new Point(p.x / Simulation.CELL_S, p.y / Simulation.CELL_S);
+	}
+
+	public abstract void paint(Graphics g);
 }

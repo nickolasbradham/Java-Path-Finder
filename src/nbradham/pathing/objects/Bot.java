@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.Arrays;
 
 import nbradham.pathing.algorithms.PathingAlgorithm;
 
@@ -50,6 +51,7 @@ public final class Bot extends KeyframedObject {
 	 */
 	public void setAlgorithm(PathingAlgorithm algorithm) {
 		alg = algorithm;
+		alg.setPoints(start, end);
 	}
 
 	/**
@@ -68,6 +70,7 @@ public final class Bot extends KeyframedObject {
 		if (alg.isFinished())
 			if (alg.hasPath()) {
 				keyPoss = alg.generateKeyframes();
+				Arrays.sort(keyPoss, KEYFRAME_SORTER);
 				state = BotState.MOVING;
 			} else
 				state = BotState.NO_PATH;
@@ -80,6 +83,7 @@ public final class Bot extends KeyframedObject {
 	 */
 	public void reset() {
 		keyPoss = new int[][] { { 0, start.x, start.y } };
+		loc.setLocation(start);
 		state = BotState.PATHING;
 	}
 
@@ -89,6 +93,7 @@ public final class Bot extends KeyframedObject {
 	 * @param g The Graphics to draw the bot to.
 	 */
 	public void paint(Graphics g) {
+		alg.paint(g);
 		g.setColor(Color.MAGENTA);
 		g.fillRect(end.x - 10, end.y - 10, 20, 20);
 		super.paint((Graphics2D) g);
@@ -96,9 +101,9 @@ public final class Bot extends KeyframedObject {
 
 	@Override
 	public void step(short frame) {
-		if (frame >= keyPoss.length)
-			state = BotState.END_REACHED;
-		else
+		if (frame <= keyPoss[keyPoss.length - 1][0])
 			super.step(frame);
+		else
+			state = BotState.END_REACHED;
 	}
 }

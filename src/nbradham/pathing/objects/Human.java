@@ -2,6 +2,7 @@ package nbradham.pathing.objects;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 /**
  * Represents a human in the simulation. This human may have a determined path
@@ -22,6 +23,10 @@ public final class Human extends KeyframedObject {
 	 */
 	public Human(int[][] setKeyPoss) {
 		super(setKeyPoss, Color.BLACK);
+	}
+
+	public boolean isPointInPS(Point p) {
+		return loc.distance(p) < PERSONAL_RADIUS;
 	}
 
 	@Override
