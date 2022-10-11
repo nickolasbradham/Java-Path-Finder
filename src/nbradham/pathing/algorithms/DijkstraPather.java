@@ -2,6 +2,7 @@ package nbradham.pathing.algorithms;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.PriorityQueue;
 
 import nbradham.pathing.Simulation;
 
@@ -13,6 +14,9 @@ import nbradham.pathing.Simulation;
  */
 public final class DijkstraPather extends PathingAlgorithm {
 
+	private final Cell[][] grid = new Cell[Simulation.GRID_W][Simulation.GRID_H];
+	private final PriorityQueue<Cell> q = new PriorityQueue<>();
+
 	/**
 	 * Constructs a new DijkstraPather instance.
 	 * 
@@ -20,6 +24,10 @@ public final class DijkstraPather extends PathingAlgorithm {
 	 */
 	public DijkstraPather(Simulation setSim) {
 		super(setSim);
+		for (byte x = 0; x < grid.length; x++)
+			for (byte y = 0; y < grid[x].length; y++) {
+				q.offer(grid[x][y] = new Cell());
+			}
 	}
 
 	@Override
@@ -53,5 +61,15 @@ public final class DijkstraPather extends PathingAlgorithm {
 	@Override
 	public void paint(Graphics g) {
 
+	}
+
+	private static final class Cell implements Comparable<Cell> {
+		private Cell prev;
+		private short dist = Short.MAX_VALUE;
+
+		@Override
+		public int compareTo(Cell o) {
+			return (int) Math.floor(dist - o.dist);
+		}
 	}
 }
