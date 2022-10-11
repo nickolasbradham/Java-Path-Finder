@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.Thread.State;
@@ -35,6 +36,7 @@ public final class Simulation extends JPanel {
 
 	private final SimThread thread = new SimThread();
 	private final JLabel stepLabel = new JLabel("Waiting...");
+	private final AppWindow appWin;
 
 	private Human[] humans = new Human[0];
 	private Bot bot = new Bot(-1, -1, -1, -1);
@@ -45,9 +47,10 @@ public final class Simulation extends JPanel {
 	/**
 	 * Constructs a new Simulation.
 	 */
-	Simulation() {
+	Simulation(AppWindow aw) {
 		super();
 		setPreferredSize(new Dimension(GRID_W * CELL_S, GRID_H * CELL_S));
+		appWin = aw;
 	}
 
 	/**
@@ -100,6 +103,7 @@ public final class Simulation extends JPanel {
 	 */
 	private void updateBotPather() {
 		bot.setAlgorithm(usingAStar ? new AStarPather(this) : new DijkstraPather(this));
+		repaint();
 	}
 
 	/**
@@ -137,11 +141,11 @@ public final class Simulation extends JPanel {
 			break;
 		case NO_PATH:
 			labelText = "No path";
-			pause();
+			appWin.actionPerformed(new ActionEvent(this, 0, AppWindow.ACT_PAUSE));
 			break;
 		case END_REACHED:
 			labelText = "End reached";
-			pause();
+			appWin.actionPerformed(new ActionEvent(this, 0, AppWindow.ACT_PAUSE));
 		}
 
 		SwingUtilities.invokeLater(() -> repaint());

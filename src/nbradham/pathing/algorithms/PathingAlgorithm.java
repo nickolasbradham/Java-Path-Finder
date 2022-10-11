@@ -58,7 +58,9 @@ public sealed abstract class PathingAlgorithm permits AStarPather, DijkstraPathe
 	 * @param start The start Point.
 	 * @param end   The end Point.
 	 */
-	public abstract void setPoints(Point start, Point end);
+	public void setPoints(Point start, Point setEnd) {
+		end = toCellCoords(setEnd);
+	}
 
 	/**
 	 * Paints algorithm data to {@code g}.
@@ -74,7 +76,7 @@ public sealed abstract class PathingAlgorithm permits AStarPather, DijkstraPathe
 	 * @return A new Point instance with the coordinates converted to cell
 	 *         coordinates.
 	 */
-	protected static final Point toCellCords(Point p) {
+	protected static final Point toCellCoords(Point p) {
 		return new Point(p.x / Simulation.CELL_S, p.y / Simulation.CELL_S);
 	}
 }

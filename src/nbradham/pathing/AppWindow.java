@@ -23,11 +23,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 final class AppWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
-	private static final String ACT_OPEN = "open", ACT_RUN = "run", ACT_PAUSE = "pause", ACT_STEP = "step",
+	static final String ACT_OPEN = "open", ACT_RUN = "run", ACT_PAUSE = "pause", ACT_STEP = "step",
 			ACT_RESET = "reset", ACT_ALGORITHM = "algorithm", ACT_WAIT = "wait", ALGORITHM_A_STAR = "A*",
 			ALGORITHM_DIJKSTRAS = "Dijkstra's";
 
-	private final Simulation sim = new Simulation();
+	private final Simulation sim = new Simulation(this);
 	private final JButton runButton = createJButton("Run", ACT_RUN, KeyEvent.VK_R),
 			pauseButton = createJButton("Pause", ACT_PAUSE, KeyEvent.VK_P),
 			stepButton = createJButton("Step", ACT_STEP, KeyEvent.VK_S),

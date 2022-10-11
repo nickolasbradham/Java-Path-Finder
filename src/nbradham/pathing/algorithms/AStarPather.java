@@ -99,8 +99,8 @@ public final class AStarPather extends PathingAlgorithm {
 
 	@Override
 	public void setPoints(Point start, Point endPoint) {
-		Point sc = toCellCords(start);
-		end = toCellCords(endPoint);
+		Point sc = toCellCoords(start);
+		super.setPoints(start, endPoint);
 		openSet.offer(grid[sc.x][sc.y]);
 		grid[sc.x][sc.y].gScore = 0;
 		grid[sc.x][sc.y].fScore = h(sc);
