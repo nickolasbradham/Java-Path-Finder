@@ -18,7 +18,6 @@ public final class AStarPather extends PathingAlgorithm {
 
 	private final Cell[][] grid = new Cell[Simulation.GRID_W][Simulation.GRID_H];
 	private final PriorityQueue<Cell> openSet = new PriorityQueue<>();
-	private Point end;
 	private Cell[] path;
 
 	/**

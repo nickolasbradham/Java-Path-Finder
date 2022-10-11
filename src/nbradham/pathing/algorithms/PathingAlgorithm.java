@@ -14,6 +14,7 @@ import nbradham.pathing.Simulation;
 public sealed abstract class PathingAlgorithm permits AStarPather, DijkstraPather {
 
 	protected final Simulation sim;
+	protected Point end;
 
 	/**
 	 * Constructs a new PathingAlgorithm instance.
