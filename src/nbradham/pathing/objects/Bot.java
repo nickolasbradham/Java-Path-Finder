@@ -16,6 +16,8 @@ import nbradham.pathing.algorithms.PathingAlgorithm;
  */
 public final class Bot extends KeyframedObject {
 
+	public static final byte MOV_T = 4;
+
 	/**
 	 * Represents the current state of a {@link Bot} instance.
 	 * 
@@ -100,7 +102,7 @@ public final class Bot extends KeyframedObject {
 	}
 
 	@Override
-	public void step(short frame) {
+	public void step(int frame) {
 		if (frame <= keyPoss[keyPoss.length - 1][0])
 			super.step(frame);
 		else

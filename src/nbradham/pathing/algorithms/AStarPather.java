@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import nbradham.pathing.Simulation;
+import nbradham.pathing.objects.Bot;
 
 /**
  * Handles A* path finding.
@@ -54,10 +55,10 @@ public final class AStarPather extends PathingAlgorithm {
 			for (byte y = -1; y <= 1; y++)
 				if (!(x == 0 && y == 0)) {
 					int nx = cur.loc.x + x, ny = cur.loc.y + y;
-					if (nx >= 0 && ny >= 0 && nx < grid.length && ny < grid[nx].length
-							&& sim.isPointInPersonalSpace(nx * Simulation.CELL_S, ny * Simulation.CELL_S)) {
+					if (nx >= 0 && ny >= 0 && nx < grid.length && ny < grid[nx].length) {
 						double tgScore = cur.gScore + cur.loc.distance(grid[nx][ny].loc);
-						if (tgScore < grid[nx][ny].gScore) {
+						if (tgScore < grid[nx][ny].gScore && sim.notPointInPersonalSpace((int) (tgScore * Bot.MOV_T),
+								nx * Simulation.CELL_S, ny * Simulation.CELL_S)) {
 							grid[nx][ny].cameFrom = cur;
 							grid[nx][ny].gScore = tgScore;
 							grid[nx][ny].fScore = tgScore + h(grid[nx][ny].loc);
@@ -83,7 +84,7 @@ public final class AStarPather extends PathingAlgorithm {
 		ArrayList<int[]> kfs = new ArrayList<>();
 		int k = path.length;
 		for (Cell c : path)
-			kfs.add(new int[] { --k * 2, c.loc.x * Simulation.CELL_S, c.loc.y * Simulation.CELL_S });
+			kfs.add(new int[] { --k * Bot.MOV_T, c.loc.x * Simulation.CELL_S, c.loc.y * Simulation.CELL_S });
 		return kfs.toArray(new int[0][]);
 	}
 

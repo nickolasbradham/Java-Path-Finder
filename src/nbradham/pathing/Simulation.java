@@ -204,12 +204,12 @@ public final class Simulation extends JPanel {
 		bot.paint(g);
 	}
 
-	public boolean isPointInPersonalSpace(int nx, int ny) {
+	public boolean notPointInPersonalSpace(int t, int nx, int ny) {
 		Point p = new Point(nx, ny);
 		for (Human h : humans)
-			if (h.isPointInPS(p))
-				return true;
-		return false;
+			if (h.isPointInPS(t, p))
+				return false;
+		return true;
 	}
 
 	/**

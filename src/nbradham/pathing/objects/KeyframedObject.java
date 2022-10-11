@@ -44,16 +44,16 @@ public abstract class KeyframedObject {
 	 * key frames stored in this object. It will calculate it's position between two
 	 * frames if key frame {@code n} does not exist.
 	 * 
-	 * @param n The target frame.
+	 * @param t The target frame.
 	 */
-	public void step(short n) {
-		int ind = Arrays.binarySearch(keyPoss, new int[] { n }, KEYFRAME_SORTER);
+	public void step(int t) {
+		int ind = Arrays.binarySearch(keyPoss, new int[] { t }, KEYFRAME_SORTER);
 		if (ind < 0) {
 			int[] first = keyPoss[-(ind + 1) - 1];
 			int si = -(ind + 1);
 			if (si < keyPoss.length) {
 				int[] second = keyPoss[si];
-				int dt = second[0] - first[0], midT = n - first[0];
+				int dt = second[0] - first[0], midT = t - first[0];
 				loc.setLocation(first[1] + (second[1] - first[1]) * midT / dt,
 						first[2] + (second[2] - first[2]) * midT / dt);
 			} else

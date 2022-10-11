@@ -25,7 +25,8 @@ public final class Human extends KeyframedObject {
 		super(setKeyPoss, Color.BLACK);
 	}
 
-	public boolean isPointInPS(Point p) {
+	public boolean isPointInPS(int t, Point p) {
+		step(t);
 		return loc.distance(p) < PERSONAL_RADIUS;
 	}
 
