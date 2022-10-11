@@ -34,6 +34,10 @@ public final class AStarPather extends PathingAlgorithm {
 				grid[x][y] = new Cell(x, y);
 	}
 
+	private final double h(Point start) {
+		return start.distance(end) * Bot.MOV_T;
+	}
+
 	@Override
 	public void step() {
 		if (hasPath())
@@ -56,8 +60,8 @@ public final class AStarPather extends PathingAlgorithm {
 				if (!(x == 0 && y == 0)) {
 					int nx = cur.loc.x + x, ny = cur.loc.y + y;
 					if (nx >= 0 && ny >= 0 && nx < grid.length && ny < grid[nx].length) {
-						double tgScore = cur.gScore + cur.loc.distance(grid[nx][ny].loc);
-						if (tgScore < grid[nx][ny].gScore && sim.notPointInPersonalSpace((int) (tgScore * Bot.MOV_T),
+						double tgScore = cur.gScore + cur.loc.distance(grid[nx][ny].loc) * Bot.MOV_T;
+						if (tgScore < grid[nx][ny].gScore && sim.notPointInPersonalSpace((int) tgScore,
 								nx * Simulation.CELL_S, ny * Simulation.CELL_S)) {
 							grid[nx][ny].cameFrom = cur;
 							grid[nx][ny].gScore = tgScore;
@@ -101,15 +105,18 @@ public final class AStarPather extends PathingAlgorithm {
 	public void paint(Graphics g) {
 		for (byte x = 0; x < grid.length; x++)
 			for (byte y = 0; y < grid[x].length; y++) {
+				if (grid[x][y].cameFrom != null)
+					g.drawLine(x * Simulation.CELL_S + Simulation.CELL_S / 2,
+							y * Simulation.CELL_S + Simulation.CELL_S / 2,
+							grid[x][y].cameFrom.loc.x * Simulation.CELL_S + Simulation.CELL_S / 2,
+							grid[x][y].cameFrom.loc.y * Simulation.CELL_S + Simulation.CELL_S / 2);
 				g.drawString(String.format("%.1f", grid[x][y].fScore), x * Simulation.CELL_S,
 						y * Simulation.CELL_S + 12);
 				g.drawString(String.format("%.1f", grid[x][y].gScore), x * Simulation.CELL_S,
 						y * Simulation.CELL_S + 24);
+				g.drawString(String.format("%.1f", grid[x][y].gScore), x * Simulation.CELL_S,
+						y * Simulation.CELL_S + 36);
 			}
-	}
-
-	private final double h(Point start) {
-		return start.distance(end);
 	}
 
 	private static final class Cell implements Comparable<Cell> {

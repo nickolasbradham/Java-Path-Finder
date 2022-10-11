@@ -19,12 +19,12 @@ public abstract class KeyframedObject {
 		return a[0] - b[0];
 	};
 
-	private static final short HITBOX_RADIUS = 25;
-	private static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2;
+	protected static final short HITBOX_RADIUS = 25;
+	protected static final int HITBOX_DIAMETER = HITBOX_RADIUS * 2;
 
 	protected int[][] keyPoss;
 	protected Point loc;
-	private final Color col;
+	private final Color dotCol, lineCol;
 
 	/**
 	 * Constructs a new KeyframedObject and sets the frames.
@@ -33,10 +33,11 @@ public abstract class KeyframedObject {
 	 *                   is {@code frameNum, x, y}.
 	 * @param setCol     Sets the color of the object when painted to the GUI.
 	 */
-	public KeyframedObject(int[][] setKeyPoss, Color setCol) {
+	public KeyframedObject(int[][] setKeyPoss, Color setCol, Color setLineCol) {
 		keyPoss = setKeyPoss;
 		loc = new Point(keyPoss[0][1], keyPoss[0][2]);
-		col = setCol;
+		dotCol = setCol;
+		lineCol = setLineCol;
 	}
 
 	/**
@@ -68,14 +69,15 @@ public abstract class KeyframedObject {
 	 * @param g The graphics to paint to.
 	 */
 	public void paint(Graphics2D g) {
-		g.setColor(Color.GREEN);
+		g.setColor(lineCol);
 		g.setStroke(new BasicStroke(4));
 		for (byte i = 1; i < keyPoss.length; i++) {
 			int last = i - 1;
-			g.drawLine(keyPoss[last][1], keyPoss[last][2], keyPoss[i][1], keyPoss[i][2]);
+			g.drawLine(keyPoss[last][1] + HITBOX_RADIUS, keyPoss[last][2] + HITBOX_RADIUS,
+					keyPoss[i][1] + HITBOX_RADIUS, keyPoss[i][2] + HITBOX_RADIUS);
 		}
 
-		g.setColor(col);
-		g.fillOval(loc.x - HITBOX_RADIUS, loc.y - HITBOX_RADIUS, HITBOX_DIAMETER, HITBOX_DIAMETER);
+		g.setColor(dotCol);
+		g.fillOval(loc.x, loc.y, HITBOX_DIAMETER, HITBOX_DIAMETER);
 	}
 }

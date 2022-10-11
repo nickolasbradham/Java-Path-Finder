@@ -22,18 +22,19 @@ public final class Human extends KeyframedObject {
 	 * @param setKeyPoss Sets the key frame data of this Human.
 	 */
 	public Human(int[][] setKeyPoss) {
-		super(setKeyPoss, Color.BLACK);
+		super(setKeyPoss, Color.BLACK, Color.GREEN);
 	}
 
 	public boolean isPointInPS(int t, Point p) {
 		step(t);
-		return loc.distance(p) < PERSONAL_RADIUS;
+		return loc.distance(p) < PERSONAL_RADIUS + Bot.HITBOX_DIAMETER;
 	}
 
 	@Override
 	public final void paint(Graphics2D g) {
 		g.setColor(new Color(0, 0, 0, 32));
-		g.fillOval(loc.x - PERSONAL_RADIUS, loc.y - PERSONAL_RADIUS, PERSONAL_DIAMETER, PERSONAL_DIAMETER);
+		g.fillOval(loc.x - PERSONAL_RADIUS + HITBOX_RADIUS, loc.y - PERSONAL_RADIUS + HITBOX_RADIUS, PERSONAL_DIAMETER,
+				PERSONAL_DIAMETER);
 		super.paint(g);
 	}
 }

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Arrays;
 
+import nbradham.pathing.Simulation;
 import nbradham.pathing.algorithms.PathingAlgorithm;
 
 /**
@@ -41,7 +42,7 @@ public final class Bot extends KeyframedObject {
 	 * @param endY   The target Y of the bot.
 	 */
 	public Bot(int startX, int startY, int endX, int endY) {
-		super(new int[][] { { 0, startX, startY } }, Color.GRAY);
+		super(new int[][] { { 0, startX, startY } }, Color.GRAY, Color.BLUE);
 		start = new Point(startX, startY);
 		end = new Point(endX, endY);
 	}
@@ -97,7 +98,7 @@ public final class Bot extends KeyframedObject {
 	public void paint(Graphics g) {
 		alg.paint(g);
 		g.setColor(Color.MAGENTA);
-		g.fillRect(end.x - 10, end.y - 10, 20, 20);
+		g.fillRect(end.x + Simulation.CELL_S / 2 - 10, end.y + Simulation.CELL_S / 2 - 10, 20, 20);
 		super.paint((Graphics2D) g);
 	}
 

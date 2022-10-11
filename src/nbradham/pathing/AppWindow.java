@@ -124,6 +124,9 @@ final class AppWindow extends JFrame implements ActionListener {
 				if (sim.load(jfc.getSelectedFile())) {
 					runItem.setEnabled(true);
 					stepItem.setEnabled(true);
+					pauseItem.setEnabled(false);
+					resetItem.setEnabled(false);
+					sim.reset();
 				}
 			}
 			break;
