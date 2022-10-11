@@ -104,7 +104,12 @@ final class AppWindow extends JFrame implements ActionListener {
 	 */
 	private void updateWait() {
 		try {
-			sim.setWait(Short.parseShort((String) waitBox.getSelectedItem()));
+			short tw = Short.parseShort((String) waitBox.getSelectedItem());
+			if (tw < 1) {
+				waitBox.getEditor().setItem("1");
+				return;
+			}
+			sim.setWait(tw);
 			waitBox.getEditor().getEditorComponent().setForeground(getForeground());
 		} catch (NumberFormatException e) {
 			waitBox.getEditor().getEditorComponent().setForeground(Color.RED);
@@ -113,6 +118,7 @@ final class AppWindow extends JFrame implements ActionListener {
 	}
 
 	final void pause() {
+		sim.pause();
 		SwingUtilities.invokeLater(() -> {
 			pauseButton.setEnabled(false);
 			runButton.setEnabled(true);
@@ -146,7 +152,6 @@ final class AppWindow extends JFrame implements ActionListener {
 			sim.run();
 			break;
 		case ACT_PAUSE:
-			sim.pause();
 			pause();
 			break;
 		case ACT_STEP:
