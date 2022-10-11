@@ -119,8 +119,6 @@ public final class AStarPather extends PathingAlgorithm {
 						y * Simulation.CELL_S + 12);
 				g.drawString(String.format("%.1f", grid[x][y].gScore), x * Simulation.CELL_S,
 						y * Simulation.CELL_S + 24);
-				g.drawString(String.format("%.1f", grid[x][y].gScore), x * Simulation.CELL_S,
-						y * Simulation.CELL_S + 36);
 			}
 	}
 
