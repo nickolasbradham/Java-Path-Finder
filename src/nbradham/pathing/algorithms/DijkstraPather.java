@@ -106,12 +106,24 @@ public final class DijkstraPather extends PathingAlgorithm {
 			}
 	}
 
+	/**
+	 * Holds cell information.
+	 * 
+	 * @author Nickolas Bradham
+	 *
+	 */
 	private static final class Cell implements Comparable<Cell> {
 
 		private final Point loc;
 		private Cell prev;
 		private double dist = Double.POSITIVE_INFINITY;
 
+		/**
+		 * Constructs a new Cell instance.
+		 * 
+		 * @param x the X coordinate of the Cell.
+		 * @param y the Y coordinate of the Cell.
+		 */
 		private Cell(byte x, byte y) {
 			loc = new Point(x, y);
 		}
