@@ -112,6 +112,15 @@ final class AppWindow extends JFrame implements ActionListener {
 		}
 	}
 
+	final void pause() {
+		SwingUtilities.invokeLater(() -> {
+			pauseButton.setEnabled(false);
+			runButton.setEnabled(true);
+			stepButton.setEnabled(true);
+			resetButton.setEnabled(true);
+		});
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
@@ -138,10 +147,7 @@ final class AppWindow extends JFrame implements ActionListener {
 			break;
 		case ACT_PAUSE:
 			sim.pause();
-			pauseButton.setEnabled(false);
-			runButton.setEnabled(true);
-			stepButton.setEnabled(true);
-			resetButton.setEnabled(true);
+			pause();
 			break;
 		case ACT_STEP:
 			resetButton.setEnabled(true);

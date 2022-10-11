@@ -33,7 +33,6 @@ public final class Simulation extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public static final byte CELL_S = 50, GRID_W = 26, GRID_H = 14;
-	private final ActionEvent evDone = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, AppWindow.ACT_PAUSE);
 
 	private final SimThread thread = new SimThread();
 	private final JLabel stepLabel = new JLabel("Waiting...");
@@ -146,11 +145,11 @@ public final class Simulation extends JPanel {
 			break;
 		case NO_PATH:
 			labelText = "No path";
-			appWin.actionPerformed(evDone);
+			appWin.pause();
 			break;
 		case END_REACHED:
 			labelText = "End reached";
-			appWin.actionPerformed(evDone);
+			appWin.pause();
 		}
 
 		SwingUtilities.invokeLater(() -> repaint());
