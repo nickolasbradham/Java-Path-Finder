@@ -34,6 +34,12 @@ public final class AStarPather extends PathingAlgorithm {
 				grid[x][y] = new Cell(x, y);
 	}
 
+	/**
+	 * The heuristic function
+	 * 
+	 * @param start The point to check from.
+	 * @return The estimated cost to get from {@code start} to the end.
+	 */
 	private final double h(Point start) {
 		return start.distance(end) * Bot.MOV_T;
 	}
@@ -119,12 +125,24 @@ public final class AStarPather extends PathingAlgorithm {
 			}
 	}
 
+	/**
+	 * Holds cell information.
+	 * 
+	 * @author Nickolas Bradham
+	 *
+	 */
 	private static final class Cell implements Comparable<Cell> {
 
 		private final Point loc;
 		private Cell cameFrom;
 		private double fScore = Double.POSITIVE_INFINITY, gScore = Double.POSITIVE_INFINITY;
 
+		/**
+		 * Constructs a new Cell.
+		 * 
+		 * @param x The X coordinate.
+		 * @param y The Y coordinate.
+		 */
 		private Cell(byte x, byte y) {
 			loc = new Point(x, y);
 		}

@@ -28,10 +28,10 @@ final class AppWindow extends JFrame implements ActionListener {
 			ALGORITHM_DIJKSTRAS = "Dijkstra's";
 
 	private final Simulation sim = new Simulation();
-	private final JButton runItem = createJButton("Run", ACT_RUN, KeyEvent.VK_R),
-			pauseItem = createJButton("Pause", ACT_PAUSE, KeyEvent.VK_P),
-			stepItem = createJButton("Step", ACT_STEP, KeyEvent.VK_S),
-			resetItem = createJButton("Reset", ACT_RESET, KeyEvent.VK_E);
+	private final JButton runButton = createJButton("Run", ACT_RUN, KeyEvent.VK_R),
+			pauseButton = createJButton("Pause", ACT_PAUSE, KeyEvent.VK_P),
+			stepButton = createJButton("Step", ACT_STEP, KeyEvent.VK_S),
+			resetButton = createJButton("Reset", ACT_RESET, KeyEvent.VK_E);
 	private final JComboBox<String> algorithmBox = new JComboBox<>(
 			new String[] { ALGORITHM_A_STAR, ALGORITHM_DIJKSTRAS }),
 			waitBox = new JComboBox<>(new String[] { "500", "250", "100", "50", "17" });
@@ -48,10 +48,10 @@ final class AppWindow extends JFrame implements ActionListener {
 		JButton openItem = createJButton("Open", ACT_OPEN, KeyEvent.VK_O);
 		openItem.setEnabled(true);
 		controls.add(openItem);
-		controls.add(runItem);
-		controls.add(pauseItem);
-		controls.add(stepItem);
-		controls.add(resetItem);
+		controls.add(runButton);
+		controls.add(pauseButton);
+		controls.add(stepButton);
+		controls.add(resetButton);
 
 		controls.add(new JLabel("Algorithm:"));
 		algorithmBox.setActionCommand(ACT_ALGORITHM);
@@ -122,30 +122,30 @@ final class AppWindow extends JFrame implements ActionListener {
 			jfc.setFileFilter(new FileNameExtensionFilter("Simulation Data File", "sim"));
 			if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 				if (sim.load(jfc.getSelectedFile())) {
-					runItem.setEnabled(true);
-					stepItem.setEnabled(true);
-					pauseItem.setEnabled(false);
-					resetItem.setEnabled(false);
+					runButton.setEnabled(true);
+					stepButton.setEnabled(true);
+					pauseButton.setEnabled(false);
+					resetButton.setEnabled(false);
 					sim.reset();
 				}
 			}
 			break;
 		case ACT_RUN:
-			runItem.setEnabled(false);
-			pauseItem.setEnabled(true);
-			stepItem.setEnabled(false);
-			resetItem.setEnabled(false);
+			runButton.setEnabled(false);
+			pauseButton.setEnabled(true);
+			stepButton.setEnabled(false);
+			resetButton.setEnabled(false);
 			sim.run();
 			break;
 		case ACT_PAUSE:
 			sim.pause();
-			pauseItem.setEnabled(false);
-			runItem.setEnabled(true);
-			stepItem.setEnabled(true);
-			resetItem.setEnabled(true);
+			pauseButton.setEnabled(false);
+			runButton.setEnabled(true);
+			stepButton.setEnabled(true);
+			resetButton.setEnabled(true);
 			break;
 		case ACT_STEP:
-			resetItem.setEnabled(true);
+			resetButton.setEnabled(true);
 			sim.step();
 			break;
 		case ACT_RESET:

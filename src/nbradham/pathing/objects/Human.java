@@ -25,6 +25,14 @@ public final class Human extends KeyframedObject {
 		super(setKeyPoss, Color.BLACK, Color.GREEN);
 	}
 
+	/**
+	 * Checks if Point {@code p} is in the personal space of this Human.
+	 * 
+	 * @param t The time step to check.
+	 * @param p The point to check.
+	 * @return True if the point is in the personal space of this human at time
+	 *         {@code t}.
+	 */
 	public boolean isPointInPS(int t, Point p) {
 		step(t);
 		return loc.distance(p) < PERSONAL_RADIUS + Bot.HITBOX_DIAMETER;

@@ -188,6 +188,23 @@ public final class Simulation extends JPanel {
 		return stepLabel;
 	}
 
+	/**
+	 * Checks if point {@code (nx, ny)} is in the "personal space" of any
+	 * {@link Human} instance.
+	 * 
+	 * @param t  Time step to check.
+	 * @param nx X coordinate of point.
+	 * @param ny Y coordinate of point.
+	 * @return True if the point is not too close to any human.
+	 */
+	public boolean notPointInPersonalSpace(int t, int nx, int ny) {
+		Point p = new Point(nx, ny);
+		for (Human h : humans)
+			if (h.isPointInPS(t, p))
+				return false;
+		return true;
+	}
+
 	@Override
 	public final void paint(Graphics g) {
 		stepLabel.setText(labelText);
@@ -202,14 +219,6 @@ public final class Simulation extends JPanel {
 			h.paint((Graphics2D) g);
 
 		bot.paint(g);
-	}
-
-	public boolean notPointInPersonalSpace(int t, int nx, int ny) {
-		Point p = new Point(nx, ny);
-		for (Human h : humans)
-			if (h.isPointInPS(t, p))
-				return false;
-		return true;
 	}
 
 	/**

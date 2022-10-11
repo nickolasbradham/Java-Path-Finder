@@ -59,9 +59,21 @@ public sealed abstract class PathingAlgorithm permits AStarPather, DijkstraPathe
 	 */
 	public abstract void setPoints(Point start, Point end);
 
+	/**
+	 * Paints algorithm data to {@code g}.
+	 * 
+	 * @param g The graphics to paint to.
+	 */
+	public abstract void paint(Graphics g);
+
+	/**
+	 * Converts Point {@code p} to cell coordinates.
+	 * 
+	 * @param p The Point to convert.
+	 * @return A new Point instance with the coordinates converted to cell
+	 *         coordinates.
+	 */
 	protected static final Point toCellCords(Point p) {
 		return new Point(p.x / Simulation.CELL_S, p.y / Simulation.CELL_S);
 	}
-
-	public abstract void paint(Graphics g);
 }
