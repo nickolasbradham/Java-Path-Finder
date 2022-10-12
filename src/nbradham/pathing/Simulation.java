@@ -32,7 +32,7 @@ import nbradham.pathing.objects.KeyframedObject;
 public final class Simulation extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	public static final byte CELL_S = 50, GRID_W = 26, GRID_H = 14;
+	public static final byte CELL_S = 50, CELL_HALF = CELL_S / 2, GRID_W = 26, GRID_H = 14;
 
 	private final SimThread thread = new SimThread();
 	private final JLabel stepLabel = new JLabel("Waiting...");
@@ -206,7 +206,7 @@ public final class Simulation extends JPanel {
 	 * @return True if the point is not too close to any human.
 	 */
 	public boolean notPointInPersonalSpace(int t, int nx, int ny) {
-		Point p = new Point(nx, ny);
+		Point p = new Point(nx + CELL_HALF, ny + CELL_HALF);
 		for (Human h : humans)
 			if (h.isPointInPS(t, p))
 				return false;

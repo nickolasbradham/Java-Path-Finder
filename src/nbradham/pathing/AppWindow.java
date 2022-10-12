@@ -158,11 +158,10 @@ final class AppWindow extends JFrame implements ActionListener {
 			resetButton.setEnabled(true);
 			sim.step();
 			break;
-		case ACT_RESET:
-			sim.reset();
-			break;
 		case ACT_ALGORITHM:
 			updateAlgorithm();
+		case ACT_RESET:
+			sim.reset();
 			break;
 		case ACT_WAIT:
 			updateWait();
