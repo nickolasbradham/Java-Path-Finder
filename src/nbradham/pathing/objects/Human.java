@@ -35,7 +35,7 @@ public final class Human extends KeyframedObject {
 	 */
 	public boolean isPointInPS(int t, Point p) {
 		step(t);
-		return loc.distance(p) < PERSONAL_RADIUS + Bot.HITBOX_DIAMETER;
+		return loc.distance(p) < PERSONAL_RADIUS + Bot.HITBOX_RADIUS;
 	}
 
 	@Override
