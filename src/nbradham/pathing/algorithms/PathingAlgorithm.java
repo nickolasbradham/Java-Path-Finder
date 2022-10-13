@@ -11,7 +11,7 @@ import nbradham.pathing.Simulation;
  * @author Nickolas Bradham
  *
  */
-public sealed abstract class PathingAlgorithm permits AStarPather, DijkstraPather {
+public abstract class PathingAlgorithm {
 
 	protected final Simulation sim;
 	protected Point end;
