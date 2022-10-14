@@ -1,6 +1,7 @@
 package nbradham.pathing.algorithms;
 
-import java.awt.Graphics;
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 import nbradham.pathing.Simulation;
@@ -67,7 +68,9 @@ public abstract class PathingAlgorithm {
 	 * 
 	 * @param g The graphics to paint to.
 	 */
-	public abstract void paint(Graphics g);
+	public void paint(Graphics2D g) {
+		g.setStroke(new BasicStroke(4));
+	};
 
 	/**
 	 * Converts Point {@code p} to cell coordinates.

@@ -1,6 +1,6 @@
 package nbradham.pathing.algorithms;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
@@ -107,7 +107,8 @@ public final class AStarPather extends PathingAlgorithm {
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics2D g) {
+		super.paint(g);
 		for (byte x = 0; x < grid.length; x++)
 			for (byte y = 0; y < grid[x].length; y++) {
 				if (grid[x][y].cameFrom != null)

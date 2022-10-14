@@ -75,25 +75,28 @@ public final class Simulation extends JPanel {
 		bot = new Bot(scan.nextShort(), scan.nextShort(), scan.nextShort(), scan.nextShort());
 		updateBotPather();
 
-		scan.nextLine();
-
 		ArrayList<KeyframedObject> humansT = new ArrayList<>();
-		while (scan.hasNextLine()) {
-			String[] split = scan.nextLine().split(" ");
-			ArrayList<int[]> keyPoss = new ArrayList<>();
-			byte i = 0;
-			while (i < split.length)
-				keyPoss.add(new int[] { Short.parseShort(split[i++]), Short.parseShort(split[i++]),
-						Short.parseShort(split[i++]) });
-			int[][] sort = keyPoss.toArray(new int[0][]);
-			Arrays.sort(sort, KeyframedObject.KEYFRAME_SORTER);
-			if (sort[0][0] != 0) {
-				JOptionPane.showMessageDialog(this, "At least one object is missing an initial (0) keyframe.",
-						"Sim Data Error", JOptionPane.ERROR_MESSAGE);
-				scan.close();
-				return false;
+		
+		if (scan.hasNextLine()) {
+			scan.nextLine();
+
+			while (scan.hasNextLine()) {
+				String[] split = scan.nextLine().split(" ");
+				ArrayList<int[]> keyPoss = new ArrayList<>();
+				byte i = 0;
+				while (i < split.length)
+					keyPoss.add(new int[] { Short.parseShort(split[i++]), Short.parseShort(split[i++]),
+							Short.parseShort(split[i++]) });
+				int[][] sort = keyPoss.toArray(new int[0][]);
+				Arrays.sort(sort, KeyframedObject.KEYFRAME_SORTER);
+				if (sort[0][0] != 0) {
+					JOptionPane.showMessageDialog(this, "At least one object is missing an initial (0) keyframe.",
+							"Sim Data Error", JOptionPane.ERROR_MESSAGE);
+					scan.close();
+					return false;
+				}
+				humansT.add(new Human(sort));
 			}
-			humansT.add(new Human(sort));
 		}
 		scan.close();
 

@@ -96,7 +96,7 @@ public final class Bot extends KeyframedObject {
 	 * @param g The Graphics to draw the bot to.
 	 */
 	public void paint(Graphics g) {
-		alg.paint(g);
+		alg.paint((Graphics2D) g);
 		g.setColor(Color.MAGENTA);
 		g.fillRect(end.x + Simulation.CELL_S / 2 - 10, end.y + Simulation.CELL_S / 2 - 10, 20, 20);
 		super.paint((Graphics2D) g);
