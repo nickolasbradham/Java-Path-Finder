@@ -122,6 +122,11 @@ public final class AStarPather extends PathingAlgorithm {
 						y * Simulation.CELL_S + 24);
 			}
 	}
+	
+	@Override
+	public final int getDist() {
+		return path.length;
+	}
 
 	/**
 	 * Holds cell information.

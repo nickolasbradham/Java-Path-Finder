@@ -67,6 +67,15 @@ public final class Bot extends KeyframedObject {
 	}
 
 	/**
+	 * Retrieves the path length from the algorithm.
+	 * 
+	 * @return The length of the path calculated.
+	 */
+	public int getDist() {
+		return alg.getDist();
+	}
+
+	/**
 	 * Steps the path finding algorithm.
 	 */
 	public void stepPathing() {

@@ -107,6 +107,11 @@ public final class DijkstraPather extends PathingAlgorithm {
 			}
 	}
 
+	@Override
+	public final int getDist() {
+		return path.length;
+	}
+
 	/**
 	 * Holds cell information.
 	 * 

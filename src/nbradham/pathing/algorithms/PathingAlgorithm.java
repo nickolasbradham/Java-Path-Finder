@@ -54,6 +54,13 @@ public abstract class PathingAlgorithm {
 	public abstract int[][] generateKeyframes();
 
 	/**
+	 * Retrieves the length of the calculated path.
+	 * 
+	 * @return The path length.
+	 */
+	public abstract int getDist();
+
+	/**
 	 * Sets the start and end point of the algorithm.
 	 * 
 	 * @param start The start Point.

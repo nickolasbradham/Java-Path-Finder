@@ -41,7 +41,7 @@ public final class Simulation extends JPanel {
 	private Human[] humans = new Human[0];
 	private Bot bot = new Bot(-1, -1, -1, -1);
 	private String labelText = "Waiting...";
-	private short step = 0;
+	private short step = 0, pathOps = 0;
 	private boolean usingAStar = false;
 
 	/**
@@ -76,7 +76,7 @@ public final class Simulation extends JPanel {
 		updateBotPather();
 
 		ArrayList<KeyframedObject> humansT = new ArrayList<>();
-		
+
 		if (scan.hasNextLine()) {
 			scan.nextLine();
 
@@ -145,13 +145,14 @@ public final class Simulation extends JPanel {
 		case PATHING:
 			labelText = "Pathing...";
 			bot.stepPathing();
+			pathOps++;
 			break;
 		case NO_PATH:
 			labelText = "No path";
 			appWin.pause();
 			break;
 		case END_REACHED:
-			labelText = "End reached";
+			labelText = String.format("End reached. Path Ops: %d, Dist: %d", pathOps, bot.getDist());
 			appWin.pause();
 		}
 
@@ -163,6 +164,7 @@ public final class Simulation extends JPanel {
 	 */
 	final void reset() {
 		step = 0;
+		pathOps = 0;
 		for (KeyframedObject h : humans)
 			h.step(step);
 		bot.reset();
