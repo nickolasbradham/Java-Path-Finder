@@ -117,10 +117,9 @@ public final class Simulation extends JPanel {
 	 * Starts (or resumes) simulation thread.
 	 */
 	final void run() {
+		thread.unpause();
 		if (thread.getState() == State.NEW)
 			thread.start();
-		else
-			thread.unpause();
 	}
 
 	/**

@@ -131,6 +131,7 @@ final class AppWindow extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case ACT_OPEN:
+			sim.pause();
 			JFileChooser jfc = new JFileChooser();
 			jfc.setDialogTitle("Open Sim File");
 			jfc.setFileFilter(new FileNameExtensionFilter("Simulation Data File", "sim"));
