@@ -17,7 +17,7 @@ import nbradham.pathing.algorithms.PathingAlgorithm;
  */
 public final class Bot extends KeyframedObject {
 
-	public static final byte MOV_T = 4;
+	public static final byte MOV_T = 10;
 
 	/**
 	 * Represents the current state of a {@link Bot} instance.
